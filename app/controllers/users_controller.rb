@@ -12,6 +12,7 @@ class UsersController < ApplicationController
       @user.email=@user.email.downcase     
     if User.find_by(email: @user.email)
       flash[:alert] = "Email already exists!"
+       
        return
 
     else
