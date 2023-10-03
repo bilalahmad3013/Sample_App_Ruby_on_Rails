@@ -4,27 +4,26 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])   
+    @user = User.find(params[:id]) 
+   
   end
-
+   
   def create
-    @user = User.new(user_params)       
-      @user.email=@user.email.downcase     
-    if User.find_by(email: @user.email)
-      flash[:alert] = "Email already exists!"
-       return
-
-    else
-      if @user.save
-         flash[:success] = "Welcome to the Sample App!"
-         redirect_to user_url(@user)               
-      end 
-    end
+    @user = User.new(user_params)
     
+   if @user.save 
+      login_path  @user
+      flash[:success] = "Welcome to the Sample App!"
+      redirect_to @user
+    else
+      
+      render 'new'
+    end
   end
+
     private
     def user_params
     params.require(:user).permit(:name, :email, :password,
-    :password_confirmation)
+    :password_confirmation, :authenticity_token)
     end
 end
