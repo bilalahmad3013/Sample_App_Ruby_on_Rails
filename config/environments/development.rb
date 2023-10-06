@@ -44,7 +44,18 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    # domain: 'yourdomain.com', # Your domain
+    user_name: 'iftekhar12332122@gmail.com', # Your Gmail email address
+    password: 'wtwj uafe sfxb ghda',  # Your Gmail password or app-specific password
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+  config.action_mailer.default_url_options = { host: 'localhost:3000' } # Replace with your development host and port
+  
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
@@ -52,6 +63,8 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+
+
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
