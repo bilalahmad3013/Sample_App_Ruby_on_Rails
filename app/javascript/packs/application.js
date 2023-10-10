@@ -17,37 +17,35 @@ document.addEventListener("turbolinks:load", function () {
 });
 
 document.addEventListener('click', handleLike);
-   
-function handleLike(e){
- if(e.target.className==='like-button'){      
-   var micropostId = e.target.getAttribute('id');
-   var buttonText = e.target.innerText;
-    var likes_count= document.getElementById(micropostId)
-   console.log(likes_count)
-   
-     var xhr = new XMLHttpRequest();        
-     xhr.open('POST', '/microposts/' + micropostId + '/toggle_like', true);
-     xhr.setRequestHeader('Content-Type', 'application/json');
 
-     xhr.onload = function() {          
-       if (xhr.status === 200) {
-         var responseData = JSON.parse(xhr.responseText);            
-         if (responseData.liked) {
-           e.target.innerText = 'Dislike';
-           if(responseData.likes_count!=undefined){
-           likes_count.innerText=responseData.likes_count;
-           }
-         } else {
-           e.target.innerText = 'Like';
-           if(responseData.likes_count!=undefined){
-           likes_count.innerText=responseData.likes_count;
-           }
-         }
-       }
-     };
-
-     xhr.send();
+function handleLike(e) {
   
- }
+  if (e.target.classList.contains('like-button')) {    
+    var micropostId = e.target.getAttribute('id');
+    var buttonText = e.target.innerText;
+    var likes_count = document.getElementById(micropostId);
+  
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/microposts/' + micropostId + '/toggle_like', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var responseData = JSON.parse(xhr.responseText);
+        if (responseData.liked) {         
+          e.target.className = 'fa-solid fa-thumbs-down like-button fa-2x';
+        } else {
+          e.target.className = 'fa-solid fa-thumbs-up like-button fa-2x';
+        }
+
+        if (responseData.likes_count !== undefined) {
+           likes_count.innerText = responseData.likes_count;
+        }
+      }
+    };
+
+    xhr.send();
+  }
 }
+
+

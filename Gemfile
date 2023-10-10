@@ -78,4 +78,4 @@ gem 'mini_magick',                '4.9.5'
 gem 'activestorage'
 
 gem 'pry', '~> 0.14.2'
-gem 'rails-ujs'
+gem "font-awesome-sass", "~> 6.4.2"

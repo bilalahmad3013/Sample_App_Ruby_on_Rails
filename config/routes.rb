@@ -1,4 +1,6 @@
 Rails.application.routes.draw do   
+  get 'like/create'
+  get 'like/delete'
   get 'password_resets/new'
   get 'password_resets/edit'
   get 'sessions/new'
@@ -11,6 +13,9 @@ Rails.application.routes.draw do
   get '/login',  to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout',to: 'sessions#destroy' 
+  # get '/micropost/:id/toggle_like', to: 'like#toggle', as: 'toggle_like'
+
+  # delete '/micropost/:id/toggle_like', to: 'like_controller#delete'
 
   resources :users do
     member do
@@ -18,12 +23,13 @@ Rails.application.routes.draw do
     end
   end
   
- 
   resources :microposts do
     member do
-      post 'toggle_like'
+      post 'toggle_like', to: 'like#toggle'
     end
   end
+  
+  
 
   root 'static_pages#home'
   
