@@ -15,11 +15,39 @@ document.addEventListener("turbolinks:load", function () {
     $('[data-toggle="popover"]').popover();
   });
 });
-//= require bootstrap-sprockets
 
-// Uncomment to copy all static images under ../images to the output folder and reference
-// them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
-// or the `imagePath` JavaScript helper below.
-//
-// const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
+document.addEventListener('click', handleLike);
+   
+function handleLike(e){
+ if(e.target.className==='like-button'){      
+   var micropostId = e.target.getAttribute('id');
+   var buttonText = e.target.innerText;
+    var likes_count= document.getElementById(micropostId)
+   console.log(likes_count)
+   
+     var xhr = new XMLHttpRequest();        
+     xhr.open('POST', '/microposts/' + micropostId + '/toggle_like', true);
+     xhr.setRequestHeader('Content-Type', 'application/json');
+
+     xhr.onload = function() {          
+       if (xhr.status === 200) {
+         var responseData = JSON.parse(xhr.responseText);            
+         if (responseData.liked) {
+           e.target.innerText = 'Dislike';
+           if(responseData.likes_count!=undefined){
+           likes_count.innerText=responseData.likes_count;
+           }
+         } else {
+           e.target.innerText = 'Like';
+           if(responseData.likes_count!=undefined){
+           likes_count.innerText=responseData.likes_count;
+           }
+         }
+       }
+     };
+
+     xhr.send();
+  
+ }
+
+}

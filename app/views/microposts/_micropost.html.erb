@@ -4,6 +4,16 @@
 <span class="content">
 <%= micropost.content %>
 <%= image_tag micropost.display_image if micropost.image.attached? %>
+<%like_records = Like.where(micropost_id: micropost.id).count%>
+
+<strong>No of Likes <span id='<%=micropost.id%>'><%=like_records%></span></strong>
+
+<% if Like.where(user_id: current_user.id, micropost_id: micropost.id).exists?%>
+<button class="like-button" id='<%=micropost.id%>'>Dislike</button>
+<% else %>
+<button class="like-button" id='<%=micropost.id%>'>Like</button>
+<%end%>
+
 </span>
 <span class="timestamp">
 Posted <%= time_ago_in_words(micropost.created_at) %> ago.
@@ -11,5 +21,8 @@ Posted <%= time_ago_in_words(micropost.created_at) %> ago.
 <%= link_to "delete", micropost, method: :delete,
 data: { confirm: "You sure?" } %>
 <% end %>
+
+
+
 </span>
 </li>

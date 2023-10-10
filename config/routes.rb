@@ -18,9 +18,10 @@ Rails.application.routes.draw do
     end
   end
   
+ 
   resources :microposts do
     member do
-      get :like , :unlike
+      post 'toggle_like'
     end
   end
 
