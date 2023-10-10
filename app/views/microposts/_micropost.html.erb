@@ -1,0 +1,25 @@
+<li id="micropost-<%= micropost.id %>">
+    <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
+      <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
+        <span class="content">
+        <%= micropost.content %>
+        <%= image_tag micropost.display_image if micropost.image.attached? %>
+        <%like_records = Like.where(micropost_id: micropost.id).count%>
+
+        <strong>No of Likes <span id='<%=micropost.id%>'><%=like_records%></span></strong>
+
+        <% if Like.where(user_id: current_user.id, micropost_id: micropost.id).exists?%>
+        <i class="fa-solid fa-thumbs-down like-button fa-2x" id='<%=micropost.id%>'></i>
+        <% else %>
+        <i class="fa-solid fa-thumbs-up like-button fa-2x" id='<%=micropost.id%>'></i>
+        <%end%>
+
+        </span>
+        <span class="timestamp">
+        Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+        <% if current_user?(micropost.user) %>
+        <%= link_to "delete", micropost, method: :delete,
+        data: { confirm: "You sure?" } %>
+    <% end %>
+  </span>
+</li>
